@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DUCKIEN - Dịch vụ Apple ID Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --panel: rgba(20, 18, 28, 0.78);
+      --border: rgba(255,255,255,0.08);
+      --text: #f5f5f7;
+      --muted: #bdbdcb;
+      --pink: #ff4fd8;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    body {
+      font-family: "Inter", sans-serif; color: var(--text);
+      background: radial-gradient(circle at 50% 10%, rgba(168,85,247,0.20), transparent 25%), radial-gradient(circle at 20% 80%, rgba(255,79,216,0.08), transparent 20%), linear-gradient(180deg, #1a0a1d 0%, #0b0b10 40%, #07070a 100%);
+      min-height: 100vh;
+    }
+    .container { width: min(1120px, calc(100% - 28px)); margin: 14px auto 60px; }
+    .navbar { position: sticky; top: 14px; z-index: 50; display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 14px 20px; border-radius: 22px; background: rgba(14, 12, 20, 0.88); border: 1px solid var(--border); backdrop-filter: blur(14px); box-shadow: var(--shadow); }
+    .brand { font-weight: 900; font-size: 1.8rem; letter-spacing: -0.04em; background: linear-gradient(90deg, var(--pink), var(--purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .nav-menu { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .nav-menu a { color: #ececf4; text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 8px 12px; border-radius: 12px; transition: .2s ease; }
+    .nav-menu a:hover, .nav-menu a.active { background: rgba(255,79,216,0.12); color: #ff6ce4; }
+    section { padding: 70px 0 20px; }
+    .hero { text-align: center; padding-top: 80px; padding-bottom: 30px; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; color: #ff6ce4; background: rgba(255,79,216,0.10); border: 1px solid rgba(255,79,216,0.14); font-weight: 700; font-size: 0.9rem; }
+    .hero h1 { margin-top: 20px; font-size: clamp(3rem, 8vw, 6rem); line-height: 1; font-weight: 900; background: linear-gradient(180deg, #ff5de3 0%, #b34dff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { margin: 20px auto 0; max-width: 700px; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+
+    /* CARDS */
+    .card-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 30px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 22px; backdrop-filter: blur(10px); box-shadow: var(--shadow); position: relative; }
+    .tag { display: inline-block; margin-bottom: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(168,85,247,0.15); color: #d39cff; font-size: 0.8rem; font-weight: 700; }
+    .card h3 { font-size: 1.3rem; margin-bottom: 6px; }
+    .card-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.4; min-height: 40px; }
+    .small-btn { border: none; border-radius: 12px; padding: 12px; font-weight: 700; cursor: pointer; color: white; background: linear-gradient(135deg, #ff4fd8, #a855f7); width: 100%; transition: 0.3s; }
+    .small-btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+    /* LIÊN HỆ - FIX DÍNH CHỮ */
+    .social-list { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-top: 20px; }
+    .social-link { display: flex; flex-direction: column; gap: 5px; text-decoration: none; color: white; background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 20px; transition: .3s ease; }
+    .social-link:hover { transform: translateY(-3px); border-color: var(--pink); box-shadow: 0 10px 30px rgba(255, 79, 216, 0.2); }
+    .social-link strong { font-size: 1.1rem; color: var(--pink); }
+    .social-link span { color: var(--muted); font-size: 0.9rem; }
+
+    /* MEDIA BOX & FAQ */
+    .media-box { width: 100%; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); background: #111; margin-bottom: 25px; }
+    .media-box video { width: 100%; display: block; }
+    .faq-item { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .faq-link { color: #ff6ce4; text-decoration: underline; font-weight: 700; cursor: pointer; }
+
+    /* MODALS */
+    .modal-overlay { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; background: rgba(0,0,0,0.85); z-index: 100; padding: 18px; backdrop-filter: blur(8px); }
+    .modal-overlay.show { display: flex; }
+    .modal { width: min(480px, 100%); background: linear-gradient(180deg, #1b1127, #120e1a); border: 1px solid rgba(255,255,255,0.1); border-radius: 28px; overflow: hidden; }
+    .modal-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .close-btn { border: none; width: 36px; height: 36px; border-radius: 10px; cursor: pointer; color: white; background: rgba(255,255,255,0.1); }
+    .modal-body { padding: 20px; }
+    .field label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--muted); font-size: 0.9rem; }
+    .field input { width: 100%; padding: 15px; border-radius: 14px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: white; font: inherit; outline: none; }
+    .alert { margin-top: 15px; padding: 12px; border-radius: 12px; display: none; font-size: 0.9rem; }
+    .alert.error { background: rgba(255, 79, 79, 0.15); border: 1px solid #ff4f4f; color: #ffcaca; }
+    .alert.success { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #d1ffd6; }
+    .result-box { margin-top: 20px; padding: 15px; border-radius: 20px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); display: none; }
+    .copy-field { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 12px; background: rgba(255,255,255,0.06); margin-top: 5px; margin-bottom: 12px; }
+    .copy-field-value { flex: 1; font-weight: 700; color: #fff; word-break: break-all; }
+    .copy-inline-btn { border: none; border-radius: 8px; padding: 8px 12px; font-weight: 700; cursor: pointer; color: white; background: var(--green); font-size: 0.8rem; }
+    
+    @media (max-width: 720px) {
+      .navbar { flex-direction: column; padding: 10px; top: 8px; gap: 8px; border-radius: 18px; }
+      .nav-menu a { font-size: 0.75rem; padding: 6px 10px; }
+      .card-grid, .social-list { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="navbar">
+      <div class="brand">DUCKIEN</div>
+      <nav class="nav-menu">
+        <a class="active" href="#trang-chu">Trang chủ</a>
+        <a href="#id-apple">ID Apple</a>
+        <a href="#thong-tin">Liên hệ</a>
+        <a href="#qa">FAQ</a>
+      </nav>
+    </header>
+
+    <section id="trang-chu" class="hero">
+      <div class="badge">✦ Nâng tầm trải nghiệm số của bạn</div>
+      <h1>DUCKIEN</h1>
+      <p>Hệ thống Apple ID Premium ổn định nhất. Lấy mã truy cập bảo mật qua Bot sau mỗi 2 phút.</p>
+    </section>
+
+    <!-- 6 GÓI ID -->
+    <section id="id-apple">
+      <h2 class="section-title">Danh sách ID Apple</h2>
+      <div class="card-grid">
+        <div class="card"><div class="tag">Gói 01</div><h3>Premium 01</h3><p class="card-desc">Chuyên ứng dụng trả phí & Game hot (minecraft, limbo...v.v)</p><button class="small-btn open-key-btn" data-title="Apple ID 01" data-code="aGFjaGltaTEzNTZAaWNsb3VkLmNvbQ==" data-pass="S2llejc4OTAh" data-note="Chỉ dùng cho App Store. Tải xong vui lòng đăng xuất." data-key="key01">Nhập key</button></div>
+        <div class="card"><div class="tag">Gói 02</div><h3>Premium 02</h3><p class="card-desc">Hiện tại đang cập nhật id...</p><button class="small-btn open-key-btn" data-title="Apple ID 02" data-code="ZGFyd2luMjcxMjAwQGljbG91ZC5jb20=" data-pass="QmxvZzI0Njch" data-note="Chỉ dùng cho App Store. Tải xong vui lòng đăng xuất." data-key="key02">Nhập key</button></div>
+        <div class="card"><div class="tag">Gói 03</div><h3>Premium 03</h3><p class="card-desc">id tải stash và shadowrocket để mở khoá app bản quyền.</p><button class="small-btn open-key-btn" data-title="Apple ID 03" data-code="ZHVja2llbjU1MzBAZ21haWwuY29t" data-pass="RGtpbjEyMzRA" data-note="Chỉ dùng cho App Store. Tải xong vui lòng đăng xuất." data-key="key03">Nhập key</button></div>
+        <div class="card"><div class="tag">Gói 04</div><h3>Premium 04</h3><p class="card-desc">Gói dự phòng cho khách hàng VIP.</p><button class="small-btn open-key-btn" data-title="Apple ID 04" data-code="WFRrYmFvMDZAZ21haWwuY29t" data-pass="UGFzczA2MDY=" data-note="Chỉ dùng cho App Store. Tải xong vui lòng đăng xuất." data-key="key04">Nhập key</button></div>
+        <div class="card"><div class="tag">Gói 05</div><h3>Premium 05</h3><p class="card-desc">Hỗ trợ cập nhật ứng dụng thường xuyên.</p><button class="small-btn open-key-btn" data-title="Apple ID 05" data-code="WFRrYmFvMDVAZ21haWwuY29t" data-pass="UGFzczA1MDU=" data-note="Chỉ dùng cho App Store. Tải xong vui lòng đăng xuất." data-key="key05">Nhập key</button></div>
+        <div class="card"><div class="tag">Gói 06</div><h3>Premium 06</h3><p class="card-desc">Phiên bản giới hạn, kho app cực lớn.</p><button class="small-btn open-key-btn" data-title="Apple ID 06" data-code="WFRrYmFvMDRAZ21haWwuY29t" data-pass="UGFzczA0MDQ=" data-note="Chỉ dùng cho App Store. Tải xong vui lòng đăng xuất." data-key="key06">Nhập key</button></div>
+      </div>
+    </section>
+
+    <!-- KÊNH LIÊN HỆ - ĐÃ KHÔI PHỤC -->
+    <section id="thong-tin">
+      <h2 class="section-title">Kênh liên hệ</h2>
+      <p class="section-subtitle">Kết nối với Duc Kien qua các nền tảng mạng xã hội.</p>
+      <div class="social-list">
+        <a class="social-link" href="https://facebook.com/..." target="_blank"><strong>Facebook</strong><span>Hỗ trợ qua Fanpage chính thức</span></a>
+        <a class="social-link" href="https://tiktok.com/..." target="_blank"><strong>TikTok</strong><span>Xem video hướng dẫn mới nhất</span></a>
+        <div class="social-link" id="btnZalo" style="cursor: pointer;"><strong>Zalo</strong><span>Nhấn lấy số điện thoại liên hệ</span></div>
+        <a class="social-link" href="https://discord.com/..." target="_blank"><strong>Discord</strong><span>Tham gia cộng đồng Duc Kien</span></a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="qa">
+      <div class="card" style="padding: 25px;">
+        <h2 class="section-title">Câu hỏi thường gặp</h2>
+        <div class="media-box" style="margin-top:20px;"><video controls poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"><source src="huong-dan.mp4" type="video/mp4"></video></div>
+        <div class="faq-item"><h4>1. Cách nhập key?</h4><p>Vào ID Apple, bấm Nhập key, điền mã rồi xác nhận. <br><span class="faq-link btnOpenVideo">▶ Xem video chi tiết</span></p></div>
+        <div class="faq-item"><h4>2. Nếu nhập sai key?</h4><p>Hệ thống báo lỗi. Hãy lấy mã mới từ Bot. <br><span class="faq-link btnOpenVideo">▶ Video hướng dẫn lấy key</span></p></div>
+        <div class="faq-item"><h4>3. Web này có tạo tài khoản không?</h4><p>Không, đây là web tĩnh cung cấp thông tin cho khách hàng.</p></div>
+        <div class="faq-item"><h4>4. Key bao lâu đổi một lần?</h4><p>Hệ thống tự động đổi mã sau mỗi 2 phút.</p></div>
+      </div>
+    </section>
+    <div class="footer">© 2026 DUCKIEN.</div>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="keyModal">
+    <div class="modal">
+      <div class="modal-header"><h3 id="modalTitle">Mở khóa</h3><button class="close-btn" id="closeKeyBtn">✕</button></div>
+      <div class="modal-body">
+        <div id="inputArea">
+          <div class="field"><label>Mã xác thực (Key)</label><input type="text" id="keyInput" placeholder="VD: DK-A7B9X2"></div>
+          <button class="small-btn" id="submitKeyBtn" style="height:50px; font-size:1rem; margin-top: 15px;">Xác nhận</button>
+        </div>
+        <div class="alert error" id="errorAlert">Sai key, liên hệ <a href="https://t.me/dkien5527" target="_blank" style="color:#ff6ce4; font-weight:800; text-decoration: underline;">Duc Kien</a>.</div>
+        <div class="alert success" id="successAlert">✅ Xác thực thành công!</div>
+        <div class="result-box" id="resultBox">
+          <div class="result-row"><div class="result-label">Tài khoản</div><div class="copy-field"><div class="copy-field-value" id="resultCode"></div><button class="copy-inline-btn" id="copyCodeBtn">Copy</button></div></div>
+          <div class="result-row"><div class="result-label">Mật khẩu</div><div class="copy-field"><div class="copy-field-value" id="resultPass"></div><button class="copy-inline-btn" id="copyPassBtn">Copy</button></div></div>
+          <div class="result-row"><div class="result-label">Ghi chú</div><div class="result-value" id="resultNote" style="font-weight:700;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="videoModal"><div class="modal" style="width: min(850px, 95%);"><div class="modal-header"><h3>Hướng dẫn chi tiết</h3><button class="close-btn" id="closeVideoBtn">✕</button></div><div class="modal-body" style="padding:10px;"><video id="popupVideo" controls style="width:100%; border-radius:15px; display:block;"><source src="huong-dan.mp4" type="video/mp4"></video></div></div></div>
+  
+  <div class="modal-overlay" id="zaloModal"><div class="modal" style="width: min(400px, 90%);"><div class="modal-header"><h3>Liên hệ Zalo</h3><button class="close-btn" id="closeZaloBtn">✕</button></div><div class="modal-body" style="text-align: center;"><p style="margin-bottom: 15px; color: var(--muted);">Kết bạn Zalo qua số điện thoại:</p><div class="copy-field"><div class="copy-field-value" id="zaloPhone">07126654319</div><button class="copy-inline-btn" id="copyZaloBtn">Copy</button></div></div></div></div>
+
+  <script>
+    const SECRET_SALT = "DUCKIEN_PRO_99", TIME_STEP = 120000;
+    let currentItem = {};
+    const keyModal = document.getElementById("keyModal"), videoModal = document.getElementById("videoModal"), zaloModal = document.getElementById("zaloModal");
+    const popupVideo = document.getElementById("popupVideo"), keyInput = document.getElementById("keyInput");
+    const errorAlert = document.getElementById("errorAlert"), successAlert = document.getElementById("successAlert"), resultBox = document.getElementById("resultBox");
+
+    document.querySelectorAll(".open-key-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentItem = { ...btn.dataset };
+        document.getElementById("modalTitle").textContent = "Mở khóa " + currentItem.title;
+        keyInput.value = ""; document.getElementById("inputArea").style.display = "block";
+        resultBox.style.display = "none"; errorAlert.style.display = "none"; successAlert.style.display = "none";
+        keyModal.classList.add("show");
+      });
+    });
+
+    document.querySelectorAll(".btnOpenVideo").forEach(btn => { btn.onclick = () => { videoModal.classList.add("show"); popupVideo.play(); }; });
+    document.getElementById("btnZalo").onclick = () => zaloModal.classList.add("show");
+
+    function closeAll() { keyModal.classList.remove("show"); videoModal.classList.remove("show"); zaloModal.classList.remove("show"); popupVideo.pause(); popupVideo.currentTime = 0; }
+    document.getElementById("closeKeyBtn").onclick = closeAll; document.getElementById("closeVideoBtn").onclick = closeAll; document.getElementById("closeZaloBtn").onclick = closeAll;
+    window.onclick = (e) => { if(e.target.classList.contains('modal-overlay')) closeAll(); };
+
+    function getValidKey(offset = 0) {
+      const idNum = parseInt(currentItem.key.replace("key0", "").replace("key", ""));
+      const timeIndex = Math.floor((Date.now() - (offset * TIME_STEP)) / TIME_STEP);
+      const source = `V2-${SECRET_SALT}-${idNum}-${timeIndex}`;
+      let hash = 0; for (let i = 0; i < source.length; i++) { hash = ((hash << 5) - hash) + source.charCodeAt(i); hash |= 0; }
+      hash = Math.abs(hash);
+      const charset = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let res = ""; for (let i = 0; i < 6; i++) { res += charset.charAt((hash >> (i * 3)) % charset.length); }
+      return "DK-" + res;
+    }
+
+    document.getElementById("submitKeyBtn").onclick = () => {
+      const entered = keyInput.value.trim().toUpperCase();
+      if (entered === "DUCKIEN_BOSS" || entered === getValidKey(0) || entered === getValidKey(1)) {
+        document.getElementById("inputArea").style.display = "none";
+        successAlert.style.display = "block"; resultBox.style.display = "block"; errorAlert.style.display = "none";
+        document.getElementById("resultCode").textContent = atob(currentItem.code);
+        document.getElementById("resultPass").textContent = atob(currentItem.pass);
+        document.getElementById("resultNote").textContent = currentItem.note;
+      } else { errorAlert.style.display = "block"; }
+    };
+
+    function setupCopy(btnId, textId) {
+      document.getElementById(btnId).onclick = function() {
+        navigator.clipboard.writeText(document.getElementById(textId).textContent);
+        const old = this.textContent; this.textContent = "Đã copy";
+        setTimeout(() => this.textContent = "Copy", 1500);
+      };
+    }
+    setupCopy("copyCodeBtn", "resultCode"); setupCopy("copyPassBtn", "resultPass"); setupCopy("copyZaloBtn", "zaloPhone");
+  </script>
+</body>
+</html>
